@@ -206,7 +206,15 @@ package com.gameEngine;
 
 import java.util.Scanner;
 
-class validarionRules {
+class validationRules {
+
+    public static boolean areComponentsEqual (String componentOne, String componentTwo) {
+
+        if (componentOne.equals(componentTwo))
+            return true;
+
+        return false;
+    }
 
     public static boolean isNotComponent (String component) {
 
@@ -227,6 +235,15 @@ class validarionRules {
 
         return true;
     }
+}
+
+class inputComponents {
+
+    String componentOne;
+    String componentTwo;
+    String componentThree;
+    String componentFour;
+    String componentFive;
 }
 
 class componentsAbilities {
@@ -275,49 +292,114 @@ class componentsAbilities {
 class gameEngine {
 
 
-    public static boolean gameEngineSetup (String componentOne, String componentTwo) {
+    private static void checkComponentsValidation (inputComponents components) {
 
-        if (validarionRules.isNotComponent(componentOne))
+        if (validationRules.isNotComponent(components.componentOne))
             throw new IllegalArgumentException("Illegal argument");
 
-        if (validarionRules.isNotComponent(componentTwo))
+        if (validationRules.isNotComponent(components.componentTwo))
             throw new IllegalArgumentException("Illegal argument");
+
+        if (validationRules.isNotComponent(components.componentThree))
+            throw new IllegalArgumentException("Illegal argument");
+
+        if (validationRules.isNotComponent(components.componentFour))
+            throw new IllegalArgumentException("Illegal argument");
+
+        if (validationRules.isNotComponent(components.componentFive))
+            throw new IllegalArgumentException("Illegal argument");
+    }
+
+    private static String checkFightByTwoComponents (String componentOne, String componentTwo) {
+
+        if (validationRules.areComponentsEqual(componentOne, componentTwo))
+            return componentOne;
 
         if (componentOne.equals("rock"))
             if (componentsAbilities.rockVictims(componentTwo))
-                return true;
+                return "rock";
 
         if (componentOne.equals("scissors"))
             if (componentsAbilities.scissorsVictims(componentTwo))
-                return true;
+                return "scissors";
 
         if (componentOne.equals("spock"))
             if (componentsAbilities.spockAVictims(componentTwo))
-                return true;
+                return "spock";
 
         if (componentOne.equals("lizard"))
             if (componentsAbilities.lizardVictims(componentTwo))
-                return true;
+                return "lizard";
 
         if (componentOne.equals("paper"))
             if (componentsAbilities.paperVictims(componentTwo))
-                return true;
+                return "paper";
 
-        return false;
+        return componentTwo;
     }
 
-    public static String gameEngineArhitecture () {
+    public static void gameEngineProcessor (inputComponents components) {
+
+        checkComponentsValidation(components);
+        String winner;
+
+        System.out.print(components.componentOne + " vs " + components.componentTwo + " = ");
+        winner = checkFightByTwoComponents(components.componentOne, components.componentTwo);
+        System.out.println(winner);
+
+        System.out.print(components.componentOne + " vs " + components.componentThree + " = ");
+        winner = checkFightByTwoComponents(components.componentOne, components.componentThree);
+        System.out.println(winner);
+
+        System.out.print(components.componentOne + " vs " + components.componentFour + " = ");
+        winner = checkFightByTwoComponents(components.componentOne, components.componentFour);
+        System.out.println(winner);
+
+        System.out.print(components.componentOne + " vs " + components.componentFive + " = ");
+        winner = checkFightByTwoComponents(components.componentOne, components.componentFive);
+        System.out.println(winner);
+
+        System.out.print(components.componentTwo + " vs " + components.componentThree + " = ");
+        winner = checkFightByTwoComponents(components.componentTwo, components.componentThree);
+        System.out.println(winner);
+
+        System.out.print(components.componentTwo + " vs " + components.componentFour + " = ");
+        winner = checkFightByTwoComponents(components.componentTwo, components.componentFour);
+        System.out.println(winner);
+
+        System.out.print(components.componentTwo + " vs " + components.componentFive + " = ");
+        winner = checkFightByTwoComponents(components.componentTwo, components.componentFive);
+        System.out.println(winner);
+
+        System.out.print(components.componentThree + " vs " + components.componentFour + " = ");
+        winner = checkFightByTwoComponents(components.componentThree, components.componentFour);
+        System.out.println(winner);
+
+        System.out.print(components.componentThree + " vs " + components.componentFive + " = ");
+        winner = checkFightByTwoComponents(components.componentThree, components.componentFive);
+        System.out.println(winner);
+
+        System.out.print(components.componentFour + " vs " + components.componentFive + " = ");
+        winner = checkFightByTwoComponents(components.componentFour, components.componentFive);
+        System.out.println(winner);
+    }
+
+    public static void RunGameEngine () {
+
+        inputComponents components = new inputComponents();
 
         Scanner input = new Scanner(System.in);
 
-        String componentOne = input.next();
-        String componentTwo = input.next();
+        components.componentOne = input.next();
+        components.componentTwo = input.next();
+        components.componentThree = input.next();
+        components.componentFour = input.next();
+        components.componentFive = input.next();
+
+        gameEngineProcessor(components);
 
         input.close();
 
-        if (gameEngineSetup(componentOne, componentTwo)) return componentOne;
-
-        return componentTwo;
     }
 }
 
@@ -325,7 +407,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println(gameEngine.gameEngineArhitecture());
-
+        gameEngine.RunGameEngine();
     }
 }
